@@ -1,0 +1,14 @@
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\bin\Debug\BarcodeGenerator.exe.config
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\bin\Debug\BarcodeGenerator.exe.manifest
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\bin\Debug\BarcodeGenerator.application
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\bin\Debug\BarcodeGenerator.exe
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\bin\Debug\BarcodeGenerator.pdb
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeGenerator.csprojAssemblyReference.cache
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeLibTest.TestApp.resources
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeLibTest.Properties.Resources.resources
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeGenerator.csproj.GenerateResource.cache
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeGenerator.csproj.CoreCompileInputs.cache
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeGenerator.exe.manifest
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeGenerator.application
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeGenerator.exe
+D:\DuLieu\Desktop\Hackathon\Main Data\BarcodeGenerator\BarcodeGenerator\obj\Debug\BarcodeGenerator.pdb

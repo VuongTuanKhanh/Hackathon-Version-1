@@ -1,0 +1,34 @@
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\Test_QR.exe.config
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\Test_QR.exe
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\Test_QR.pdb
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\zxing.dll
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\zxing.presentation.dll
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\zxing.pdb
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\zxing.xml
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\zxing.presentation.pdb
+C:\Users\User\source\repos\Test_QR\Test_QR\bin\Debug\zxing.presentation.xml
+C:\Users\User\source\repos\Test_QR\Test_QR\obj\Debug\Test_QR.csprojAssemblyReference.cache
+C:\Users\User\source\repos\Test_QR\Test_QR\obj\Debug\Test_QR.Form1.resources
+C:\Users\User\source\repos\Test_QR\Test_QR\obj\Debug\Test_QR.Properties.Resources.resources
+C:\Users\User\source\repos\Test_QR\Test_QR\obj\Debug\Test_QR.csproj.GenerateResource.cache
+C:\Users\User\source\repos\Test_QR\Test_QR\obj\Debug\Test_QR.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Test_QR\Test_QR\obj\Debug\Test_QR.csproj.CopyComplete
+C:\Users\User\source\repos\Test_QR\Test_QR\obj\Debug\Test_QR.exe
+C:\Users\User\source\repos\Test_QR\Test_QR\obj\Debug\Test_QR.pdb
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\obj\Debug\Test_QR.csprojAssemblyReference.cache
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\obj\Debug\Test_QR.Form1.resources
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\obj\Debug\Test_QR.Properties.Resources.resources
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\obj\Debug\Test_QR.csproj.GenerateResource.cache
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\obj\Debug\Test_QR.csproj.CoreCompileInputs.cache
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\obj\Debug\Test_QR.exe
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\obj\Debug\Test_QR.pdb
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\Test_QR.exe.config
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\Test_QR.exe
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\Test_QR.pdb
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\zxing.dll
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\zxing.presentation.dll
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\zxing.pdb
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\zxing.xml
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\zxing.presentation.pdb
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\bin\Debug\zxing.presentation.xml
+D:\DuLieu\Desktop\Hackathon\Main Data\Test_QR\Test_QR\obj\Debug\Test_QR.csproj.CopyComplete

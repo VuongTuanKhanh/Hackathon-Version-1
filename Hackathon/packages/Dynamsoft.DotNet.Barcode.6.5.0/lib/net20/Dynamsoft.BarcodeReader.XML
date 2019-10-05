@@ -1,0 +1,1488 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dynamsoft.BarcodeReader</name>
+    </assembly>
+    <members>
+        <member name="T:Dynamsoft.Barcode.BarcodeReader">
+             <summary>
+             Defines a class that provides functions for decoding barcodes in images. This is the main interface for recognizing barcodes.
+             </summary>
+             @class BarcodeReader
+             
+             Four methods are now supported for editing runtime settings - reset, initialize, append, update. 
+             - Reset runtime settings: reset all parameters in runtime setting to default value.     
+              
+             - Initialize with template: reset runtime settings firstly and replace all parameters in runtime setting with the values specified in given template regardless of the current runtime settings.   
+              
+             - Append template to runtime settings: append template and update runtime settings; the conflicting values will be assigned by the rules shown in PublicRuntimeSettings.    
+            
+             - Update with struct: update current runtime settings by the values specified in given struct directly; the parameter not be defined in struct will remain its original value.   
+            
+             @par References
+             More information about public parameters and template file can be found in file DBR_Developer's_Guide.pdf.
+            
+             @sa PublicRuntimeSettings		
+            
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+            @par Remarks:
+            The decoding result maybe unreliable without loading license key.
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.#ctor(System.String)">
+            <summary>
+            Constructor with a given license key.
+            </summary>
+            
+            @par Code Snippet:
+            @code 
+                BarcodeReader reader = new BarcodeReader("t0260NwAAAHV***************");
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.InitLicenseFromServer(System.String,System.String)">
+            <summary>
+            Initializes barcode reader license and connects to the specified server for online verification.
+            </summary>
+            <param name="strLicenseServer">
+            The name/IP of the license server
+            </param>
+            <param name="strLicenseKey">
+            The license key of Barcode Reader.
+            </param>
+            <returns>
+            Returns error code. 
+            </returns>
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.InitLicenseFromLicenseContent(System.String,System.String)">
+            <summary>
+            Initializes barcode reader license and connects to the specified server for online verification.
+            </summary>
+            <param name="strLicenseKey">
+            The license key of Barcode Reader.
+            </param>
+            <param name="strLicenseContent">
+            An encrypted string representing the license content (runtime number, expiry date, barcode type, etc.) obtained from the method OutputLicenseToString().
+            </param>
+            <returns>
+            Returns error code. 
+            </returns>
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.OutputLicenseToString">
+            <summary>
+            Outputs the license content as an encrypted string from the license server to be used for offline license verification.
+            </summary>
+            <returns>
+            The output string which stores the contents of license.
+            </returns>
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.DecodeBase64String(System.String,System.String)">
+            <summary>
+            Decodes barcode from an image file encoded as a base64 string.
+            </summary>
+            <param name="strBase64">
+            A base64 encoded string that represents an image.
+            </param>
+            <param name="templateName">
+            The template name.
+            </param>
+            <returns>
+            All barcode text results decoded successfully.
+            </returns>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               byte[] byteFileStream = GetFileStream(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Images\AllSupportedBarcodeTypes.tif");
+               string strBase64String = GetFileBase64String(byteFileStream);
+               TextResult[] result = reader.DecodeBase64String(strBase64String, "");
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.DecodeBitmap(System.Drawing.Bitmap,System.String)">
+            <summary>
+            Decodes barcode from a bitmap.
+            </summary>
+            <param name="image">
+            The image to be decoded.
+            </param>
+            <param name="templateName">
+            The template name.
+            </param>
+            <returns>
+            All barcode text results decoded successfully.
+            </returns>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               Bitmap bBMP = new BitMap(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Images\AllSupportedBarcodeTypes.tif");
+               TextResult[] result = reader.DecodeBitmap(strBase64String, "");
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.DecodeBuffer(System.Byte[],System.Int32,System.Int32,System.Int32,Dynamsoft.Barcode.EnumImagePixelFormat,System.String)">
+            <summary>
+            Decodes barcodes from the memory buffer containing image pixels in defined format.
+            </summary>
+            <param name="bytBuffer">
+            The array of bytes which contain the image data.
+            </param>
+            <param name="iWidth">
+            The width of the image in pixels.
+            </param>
+            <param name="iHeight">
+            The height of the image in pixels.
+            </param>
+            <param name="iStride">
+            The stride of the image (also called scan width).
+            </param>
+            <param name="emFormat">
+            The image pixel format used in the image byte array.
+            </param>
+            <param name="templateName">
+            The template name.
+            </param>
+            <returns>
+            All barcode text results decoded successfully.
+            </returns>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               Bitmap bBMP = new BitMap(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Images\AllSupportedBarcodeTypes.tif");
+               BitmapData bmdat = bBMP.LockBits(new Rectangle(Point.Empty, bBMP.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+               int iWidth = bBMP.Width;
+               int iHeight = bBMP.Height;
+               int iStride = bBMP.Stride;
+               byte[] buffer = new byte[iStride * bmdat.Height];
+               Marshal.Copy(bmdat.Scan0, buffer, 0, buffer.Length);
+               bBMP.UnlockBits(bmdat);
+               EnumImagePixelFormat imageFormat = EnumImagePixelFormat.IPF_ARGB_8888;
+               TextResult[] result = reader.DecodeBuffer(buffer, iWidth, iHeight, iStride, imageFormat, "");
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.DecodeFile(System.String,System.String)">
+            <summary>
+            Decodes barcodes in a specified image file.
+            </summary>
+            <param name="strFileName">
+            A string defining the file name.
+            </param>
+            <param name="templateName">
+            The template name.
+            </param>
+            <returns>
+            All barcode text results decoded successfully.
+            </returns>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               TextResult[] result = reader.DecodeFile(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Images\AllSupportedBarcodeTypes.tif", "");
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.DecodeFileInMemory(System.Byte[],System.String)">
+            <summary>
+            Decodes barcodes from an image file in memory.
+            </summary>
+            <param name="bytFileStream">
+            The image file bytes in memory.
+            </param>
+            <param name="templateName">
+            The template name.
+            </param>
+            <returns>
+            All barcode text results decoded successfully.
+            </returns>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               byte[] byteFileStream = GetFileStream(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Images\AllSupportedBarcodeTypes.tif");
+               TextResult[] result = reader.DecodeFileInMemory(byteFileStream, "");
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.GetAllLocalizationResults">
+            <summary>
+            Gets all localization barcode results. It contains all recognized barcodes and unrecognized barcodes.
+            </summary>
+            <returns>
+            All barcode localization results obtained by the last called function DecodeFile/DecodeFileInMemory/DecodeBuffer/DecodeBase64String/DecodeBitmap.
+            </returns>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               TextResult[] testResult = reader.DecodeFile(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Images\AllSupportedBarcodeTypes.tif", "");
+               LocalizationResult[] localizationResultArray = reader.GetAllLocalizationResults();
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.GetRuntimeSettings">
+             <summary>
+             Gets current settings and save it into a struct.
+             </summary>
+             <returns>
+             The struct of template settings.
+             </returns>
+             <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            	The exception thrown by Dynamsoft Barcode Reader.
+             </exception>
+            
+             @par Code Snippet:
+             @code
+                BarcodeReader reader = new BarcodeReader();
+                reader.LicenseKeys = "t0260NwAAAHV***************";
+                PublicRuntimeSettings settings =  reader.GetRuntimeSettings();
+             @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.UpdateRuntimeSettings(Dynamsoft.Barcode.PublicRuntimeSettings)">
+            <summary>
+            Update runtime settings with a given struct.
+            </summary>
+            <param name="settings">
+            The struct of template settings.
+            </param>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               PublicRuntimeSettings settings =  reader.GetRuntimeSettings();
+               settings.mExpectedBarcodesCount = 100;
+               settings.mAntiDamageLevel = 5;
+               reader.UpdateRuntimeSettings(settings);
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.ResetRuntimeSettings">
+            <summary>
+            Resets all parameters to default values.
+            </summary>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               PublicRuntimeSettings settings =  reader.GetRuntimeSettings();
+               settings.mExpectedBarcodesCount = 100;
+               settings.mAntiDamageLevel = 5;
+               reader.UpdateRuntimeSettings(settings);
+               reader.ResetRuntimeSettings();
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.InitRuntimeSettingsWithFile(System.String,Dynamsoft.Barcode.EnumConflictMode,System.String@)">
+            <summary>
+            Initialize runtime settings with the settings in given JSON file.
+            </summary>
+            <param name="jsonFileName">
+            The path of the settings file.
+            </param>
+            <param name="emSettingPriority">
+            The parameter setting mode, which decides to inherit parameters from previous template setting or overwrite previous settings and replace by new template.
+            </param>
+            <param name="errorMessage">
+            Output parameter storing detailed error message.
+            </param>
+            <returns>
+            Returns error code. 
+            </returns>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               string errorMessage;
+               reader.InitRuntimeSettingsWithFile(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Templates\RuntimeSettings.json", EnumConflictMode.ECM_Overwrite, out errorMessage);
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.InitRuntimeSettingsWithString(System.String,Dynamsoft.Barcode.EnumConflictMode,System.String@)">
+            <summary>
+            Initialize runtime settings with the settings in given JSON string.
+            </summary>
+            <param name="jsonContent">
+            A JSON string that represents the content of the settings.
+            </param>
+            <param name="emSettingPriority">
+            The parameter setting mode, which decides to inherit parameters from previous template setting or overwrite previous settings and replace by new template.
+            </param>
+            <param name="errorMessage">
+            Output parameter storing detailed error message.
+            </param>
+            <returns>
+            Returns error code. 
+            </returns>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               string errorMessage;
+               reader.InitRuntimeSettingsWithString("{\"Version\":\"2.0\", \"ImageParameter\":{\"Name\":\"IP1\", \"BarcodeFormatIds\":[\"QR_CODE\"], \"ExpectedBarcodesCount\":10, \"AntiDamageLevel\":3}}", EnumConflictMode.ECM_Overwrite, out errorMessage);
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.AppendTplFileToRuntimeSettings(System.String,Dynamsoft.Barcode.EnumConflictMode,System.String@)">
+            <summary>
+            Append a new template file to current runtime settings.
+            </summary>
+            <param name="jsonFileName">
+            The path of the settings file.
+            </param>
+            <param name="emSettingPriority">
+            The parameter setting mode, which decides to inherit parameters from previous template setting or overwrite previous settings and replace by new template.
+            </param>
+            <param name="errorMessage">
+            Output parameter storing detailed error message.
+            </param>
+            <returns>
+            Returns error code. 
+            </returns>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               string errorMessage;
+               reader.AppendTplFileToRuntimeSettings(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Templates\RuntimeSettings.json", EnumConflictMode.ECM_Overwrite, out errorMessage);
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.AppendTplStringToRuntimeSettings(System.String,Dynamsoft.Barcode.EnumConflictMode,System.String@)">
+            <summary>
+            Append a new template string to current runtime settings.
+            </summary>
+            <param name="jsonContent">
+            A JSON string that represents the content of the settings.
+            </param>
+            <param name="emSettingPriority">
+            The parameter setting mode, which decides to inherit parameters from previous template setting or overwrite previous settings and replace by new template.
+            </param>
+            <param name="errorMessage">
+            Output parameter storing detailed error message.
+            </param>
+            <returns>
+            Returns error code. 
+            </returns>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               string errorMessage;
+               reader.AppendTplStringToRuntimeSettings("{\"Version\":\"2.0\", \"ImageParameter\":{\"Name\":\"IP1\", \"BarcodeFormatIds\":[\"QR_CODE\"], \"ExpectedBarcodesCount\":10, \"AntiDamageLevel\":3}}", EnumConflictMode.ECM_Ignore, out errorMessage);
+            @endcode 
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.GetAllParameterTemplateNames">
+            <summary>
+            Gets the parameter templates name array.
+            </summary>
+            <returns>
+            The template name array.
+            </returns>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               string errorMessage;
+               reader.InitRuntimeSettingsWithFile(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Templates\RuntimeSettings.json", EnumConflictMode.ECM_Overwrite, out errorMessage);
+               reader.AppendTplStringToRuntimeSettings("{\"Version\":\"2.0\", \"ImageParameter\":{\"Name\":\"IP1\", \"BarcodeFormatIds\":[\"QR_CODE\"], \"ExpectedBarcodesCount\":10, \"AntiDamageLevel\":3}}", EnumConflictMode.ECM_Ignore, out errorMessage);
+               string[] templateNameArray = reader.GetAllParameterTemplateNames();
+            @endcode 
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.OutputSettingsToString(System.String)">
+            <summary>
+            Outputs runtime settings to a string.
+            </summary>
+            <param name="settingsName">
+            A unique name for declaring current runtime settings.
+            </param>
+            <returns>
+            The output string which stores the contents of current settings. 
+            </returns>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               string errorMessage;
+               reader.InitRuntimeSettingsWithFile(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Templates\RuntimeSettings.json", EnumConflictMode.ECM_Overwrite, out errorMessage);
+               reader.AppendTplStringToRuntimeSettings("{\"Version\":\"2.0\", \"ImageParameter\":{\"Name\":\"IP1\", \"BarcodeFormatIds\":[\"QR_CODE\"], \"ExpectedBarcodesCount\":10, \"AntiDamageLevel\":3}}", EnumConflictMode.ECM_Ignore, out errorMessage);
+               string currentSettings = reader.OutputSettingsToString("currentRuntimeSettings");
+            @endcode 
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.OutputSettingsToFile(System.String,System.String)">
+            <summary>
+            Outputs runtime settings and save it into a settings file (JSON file).
+            </summary>
+            <param name="outputFilePath">
+            The output file path which stores current settings.
+            </param>
+            <param name="settingsName">
+            A unique name for declaring current runtime settings.
+            </param>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+               string errorMessage;
+               reader.InitRuntimeSettingsWithFile(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Templates\RuntimeSettings.json", EnumConflictMode.ECM_Overwrite, out errorMessage);
+               reader.AppendTplStringToRuntimeSettings("{\"Version\":\"2.0\", \"ImageParameter\":{\"Name\":\"IP1\", \"BarcodeFormatIds\":[\"QR_CODE\"], \"ExpectedBarcodesCount\":10, \"AntiDamageLevel\":3}}", EnumConflictMode.ECM_Ignore, out errorMessage);
+               reader.OutputSettingsToFile(@"C:\Program Files (x86)\Dynamsoft\Barcode Reader 6.4\Templates\CurrentRuntimeSettings.json", "currentRuntimeSettings");
+            @endcode
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.LoadSettingsFromFile(System.String)">
+            <summary>
+            Ensure compatibility with earlier versions. It is functionally equivalent to InitRuntimeSettingsWithFile with conflict mode ECM_Overwrite as default.
+            </summary>
+            
+            @deprecated LoadSettingsFromFile
+            
+            <param name="jsonFileName">
+            The path of the settings file.
+            </param>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception> 
+            
+            @sa InitRuntimeSettingsWithFile
+            
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.LoadSettings(System.String)">
+            <summary>
+            Ensure compatibility with earlier versions. It is functionally equivalent to InitRuntimeSettingsWithString with conflict mode ECM_Overwrite as default.
+            </summary>
+            		
+            @deprecated LoadSettings
+            
+            <param name="jsonContent">
+            A JSON string that represents the content of the settings.
+            </param>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>	
+            
+            @sa InitRuntimeSettingsWithString
+            
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.AppendParameterTemplateFromFile(System.String)">
+            <summary>
+            Ensure compatibility with earlier versions. It is functionally equivalent to AppendTplFileToRuntimeSettings with conflict mode ECM_Overwrite as default.
+            </summary>
+            
+            @deprecated AppendParameterTemplateFromFile
+            
+            <param name="jsonFileName">
+            The path of the settings file.
+            </param>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>	
+            
+            @sa AppendTplFileToRuntimeSettings
+            	
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.AppendParameterTemplate(System.String)">
+            <summary>
+            Ensure compatibility with earlier versions. It is functionally equivalent to AppendTplStringToRuntimeSettings with conflict mode ECM_Overwrite as default.
+            </summary>
+            
+            @deprecated AppendParameterTemplate 
+            
+            <param name="jsonContent">
+            A JSON string that represents the content of the settings. 
+            </param>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>	
+            
+            
+            @sa AppendTplStringToRuntimeSettings
+            	
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.GetTemplateSettings(System.String)">
+            <summary>
+            Ensure compatibility with earlier versions. It is functionally equivalent to GetRuntimeSettings.
+            </summary>
+            
+            @deprecated GetTemplateSettings
+            
+            <param name="strImageTemplateName">
+            The template name.
+            </param>
+            <returns>
+            The struct of template settings.
+            </returns>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>	
+            
+            @sa GetRuntimeSettings
+            
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.SetTemplateSettings(Dynamsoft.Barcode.PublicParameterSettings)">
+            <summary>
+            Ensure compatibility with earlier versions. It is functionally equivalent to UpdateRuntimeSettings.
+            </summary>
+            
+            @deprecated SetTemplateSettings
+            
+            <param name="settings">
+            The struct of template settings.
+            </param>
+            <exception cref="T:Dynamsoft.Barcode.BarcodeReaderException">
+            The exception thrown by Dynamsoft Barcode Reader.
+            </exception>	
+            
+            @sa UpdateRuntimeSettings
+            
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReader.GetAllTextResults">
+            
+             @}
+            
+        </member>
+        <member name="P:Dynamsoft.Barcode.BarcodeReader.LicenseKeys">
+            <summary>
+            License key used for Dynamsoft Barcode Reader.
+            </summary>
+            
+            @par Code Snippet:
+            @code
+               BarcodeReader reader = new BarcodeReader();
+               reader.LicenseKeys = "t0260NwAAAHV***************";
+            @endcode
+        </member>
+        <member name="T:Dynamsoft.Barcode.EnumErrorCode">
+            <summary>
+            Describes error codes.
+            </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBRERR_LICENSE_DLL_MISSING">
+            <summary>  The License DLL is missing. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBRERR_LICENSEKEY_NOT_MATCHED">
+            <summary>  The license key is not match the license file. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBRERR_REQUESTED_FAILED">
+            <summary>  Failed to request the license file. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBRERR_LICENSE_INIT_FAILED">
+            <summary>  Failed to init the license.</summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_AZTEC_LICENSE_INVALID">
+            <summary>  The AZTEC license is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_PARAMETER_VALUE_INVALID">
+            <summary> The parameter value is invalid or out of range. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_JSON_NAME_REFERENCE_INVALID">
+            <summary>  The name reference is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_TEMPLATE_NAME_INVALID">
+            <summary>  The template name is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_JSON_NAME_VALUE_DUPLICATED">
+            <summary>  The value of the key "Name" is duplicated. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_JSON_NAME_KEY_MISSING">
+            <summary>  The mandatory key "Name" is missing. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_JSON_VALUE_INVALID">
+            <summary>  The value is invalid or out of range. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_JSON_KEY_INVALID">
+            <summary>  The key is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_JSON_TYPE_INVALID">
+            <summary>  The value type is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_JSON_PARSE_FAILED">
+            <summary>  Failed to parse json string. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_RECOGNITION_TIMEOUT">
+            <summary>  Recognition timeout. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_CUSTOM_MODULESIZE_INVALID">
+            <summary>  The custom module size is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_CUSTOM_SIZE_INVALID">
+            <summary>  The custom size is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_PAGE_NUMBER_INVALID">
+            <summary>  The page number is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_PDF_DLL_MISSING">
+            <summary>  The PDF DLL is missing. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_PDF_READ_FAILED">
+            <summary>  Failed to read the PDF file. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_DATAMATRIX_LICENSE_INVALID">
+            <summary>  The DATAMATRIX license is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_PDF417_LICENSE_INVALID">
+            <summary>  The PDF417 license is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_DIB_BUFFER_INVALID">
+            <summary>  The DIB(Device-independent bitmaps) buffer is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_1D_LICENSE_INVALID">
+            <summary>  The 1D barcode license is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_QR_LICENSE_INVALID">
+            <summary>  The QR Code license is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_TIFF_READ_FAILED">
+            <summary>  Failed to read the TIFF image. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_IMAGE_READ_FAILED">
+            <summary>  Failed to read the image. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_MAX_BARCODE_NUMBER_INVALID">
+            <summary>  The maximum barcode number is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_CUSTOM_REGION_INVALID">
+            <summary>  The input region value parameter is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_BARCODE_FORMAT_INVALID">
+            <summary>  The barcode format is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_INDEX_INVALID">
+            <summary>  The index is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_BPP_NOT_SUPPORTED">
+            <summary>  The BPP(Bits per pixel) is not supported. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_FILETYPE_NOT_SUPPORTED">
+            <summary>  The file type is not supported. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_FILE_NOT_FOUND">
+            <summary>  The file is not found. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_LICENSE_EXPIRED">
+            <summary>  The license has expired. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_LICENSE_INVALID">
+            <summary>  The license is invalid. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_NULL_REFERENCE">
+            <summary>  Null reference. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_NO_MEMORY">
+            <summary>  Not enough memory to perform the operation. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_UNKNOWN">
+            <summary>  Unknown error. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_SUCCESS">
+            <summary>  Successful. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumErrorCode.DBR_SYSTEM_EXCEPTION">
+            <summary>  System exception </summary>
+        </member>
+        <member name="T:Dynamsoft.Barcode.BarcodeReaderException">
+            <summary> The exception class of Dynamsoft.BarcodeReader. </summary> 
+        </member>
+        <member name="M:Dynamsoft.Barcode.BarcodeReaderException.#ctor">
+            <summary>
+             Create an instance of BarcodeReaderException.
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.BarcodeReaderException.Code">
+            <summary> Gets or sets the error code. </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.BarcodeReaderException.Message">
+            <summary> Gets the message that describes the current exception. </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.BarcodeReaderException.StackTrace">
+            <summary> Gets the string representation of the frames on the call stack at the time the current exception was thrown. </summary>
+        </member>
+        <member name="T:Dynamsoft.Barcode.EnumBarcodeFormat">
+            <summary> Describes the type of the barcode. All the formats can be combined. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.All">
+            <summary> All supported formats </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.OneD">
+            <summary> One-D </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.CODE_39">
+            <summary> Code 39 </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.CODE_128">
+            <summary> Code 128 </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.CODE_93">
+            <summary> Code 93 </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.CODABAR">
+            <summary> Codabar </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.ITF">
+            <summary> ITF </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.EAN_13">
+            <summary> EAN-13 </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.EAN_8">
+            <summary> EAN-8 </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.UPC_A">
+            <summary> UPC-A </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.UPC_E">
+            <summary> UPC-E </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.INDUSTRIAL_25">
+            <summary> Industrial 2 of 5 </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.PDF417">
+            <summary> PDF417 </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.QR_CODE">
+            <summary> QRCode </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.DATAMATRIX">
+            <summary> DataMatrix </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumBarcodeFormat.AZTEC">
+            <summary> AZTEC </summary>
+        </member>
+        <member name="T:Dynamsoft.Barcode.EnumConflictMode">
+            <summary> Describes the options for setting parameters value. Detailed info can be found in PublicRuntimeSettings. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumConflictMode.ECM_Ignore">
+            <summary> Ignore new settings and inherit from previous settings. </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumConflictMode.ECM_Overwrite">
+            <summary> overwrite and replace by new settings. </summary>
+        </member>
+        <member name="T:Dynamsoft.Barcode.EnumImagePixelFormat">
+            <summary> Describes the image pixel format. </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumImagePixelFormat.IPF_Binary">
+            <summary> 0:Black, 1:White </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumImagePixelFormat.IPF_BinaryInverted">
+            <summary> 0:White, 1:Black </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumImagePixelFormat.IPF_GrayScaled">
+            <summary> 8bit gray </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumImagePixelFormat.IPF_NV21">
+            <summary> NV21 </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumImagePixelFormat.IPF_RGB_565">
+            <summary> 16bit </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumImagePixelFormat.IPF_RGB_555">
+            <summary> 16bit </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumImagePixelFormat.IPF_RGB_888">
+            <summary> 24bit </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumImagePixelFormat.IPF_ARGB_8888">
+            <summary> 32bit </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.EnumResultType">
+            <summary> Describes the extended result type. </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumResultType.EDT_StandardText">
+            <summary> Specifies the standard text. This means the barcode value. </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumResultType.EDT_RawText">
+            <summary> Specifies the raw text. This means the text that includes start/stop characters, check digits, etc. </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumResultType.EDT_CandidateText">
+            <summary> Specifies all the candidate text. This means all the standard text results decoded from the barcode. </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumResultType.EDT_PartialText">
+            <summary> Specifies the partial Text. This means part of the text result decoded from the barcode. </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.EnumTerminateStage">
+            <summary> Describes the stage when the results are returned. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumTerminateStage.ETS_Prelocalized">
+            <summary> Prelocalized </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumTerminateStage.ETS_Localized">
+            <summary> Localized </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.EnumTerminateStage.ETS_Recognized">
+            <summary> Recognized </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.TextResult">
+            
+             @class TextResult        
+             <summary> Stores the text results including the barcode type, barcode text, bytes and localization result. </summary>
+             
+        </member>
+        <member name="P:Dynamsoft.Barcode.TextResult.BarcodeFormat">
+            <summary> The barcode format </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.TextResult.BarcodeText">
+            <summary> The barcode text. </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.TextResult.BarcodeBytes">
+            <summary> The barcode content in a byte array </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.TextResult.LocalizationResult">
+            <summary> The corresponding localization result </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.ExtendedResult">
+            
+             @class ExtendedResult
+                    
+             <summary> Stores the extended barcode results including the barcode type, bytes, confidence and barcode result type (pre-localized, localized and recognized). </summary>
+            
+            
+        </member>
+        <member name="P:Dynamsoft.Barcode.ExtendedResult.ResultType">
+            <summary> Extended result type </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.ExtendedResult.BarcodeFormat">
+            <summary> Barcode type </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.ExtendedResult.Confidence">
+            <summary> The confidence of the result </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.ExtendedResult.Bytes">
+            <summary> The content in a byte array </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.LocalizationResult">
+             
+            @class LocalizationResult
+                    
+            <summary> Stores the localization results including the boundary, angle, page number, module size, etc. </summary>
+             
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.TerminateStage">
+            <summary> The stage of localization result. </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.BarcodeFormat">
+            <summary> Barcode type. </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.Angle">
+            <summary> The angle of a barcode. Values range from 0 to 360. </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.ResultPoints">
+            <summary> The array which stores the coordinates of four result points. </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.ModuleSize">
+            <summary> The barcode module size (the minimum bar width in pixel). </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.PageNumber">
+            <summary> The page number the barcode located in. The index is 0-based. </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.RegionName">
+            <summary> The region name the barcode located in. </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.DocumentName">
+            <summary> The document name. </summary> 
+        </member>
+        <member name="P:Dynamsoft.Barcode.LocalizationResult.ExtendedResultArray">
+            <summary> The extended result array </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.TextFilterMode">
+            <summary> Whether to enable text filter mode </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.TextFilterMode.TFM_Disable">
+            <summary> Disable text filter </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.TextFilterMode.TFM_Enable">
+            <summary> Enable text filter </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.RegionPredetectionMode">
+            <summary> Whether to enable region predetection mode. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.RegionPredetectionMode.RPM_Disable">
+            <summary> Disable region pre-detection </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.RegionPredetectionMode.RPM_Enable">
+            <summary> Enable region pre-detection </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.BarcodeInvertMode">
+            <summary> Values that represent barcode invert modes </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.BarcodeInvertMode.BIM_DarkOnLight">
+            <summary> Dark barcode region on light background. </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.BarcodeInvertMode.BIM_LightOnDark">
+            <summary> Light barcode region on dark background. </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.ColourImageConvertMode">
+            <summary> Values that represent colour image convert modes </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.ColourImageConvertMode.CICM_Auto">
+            <summary> Process input image as its original colour space. </summary> 
+        </member>
+        <member name="F:Dynamsoft.Barcode.ColourImageConvertMode.CICM_Grayscale">
+            <summary> Process input image with gray scale. </summary> 
+        </member>
+        <member name="T:Dynamsoft.Barcode.PublicRuntimeSettings">
+            
+             @defgroup DoNetCamptiableStruct PublicRuntimeSettings Struct
+             @{
+             
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mTimeout">
+             <summary> Sets the maximum amount of time (in milliseconds) it should spend searching for a barcode per page. It does not include the time taken to load an image (Tiff, PNG, etc.) from disk into memory. </summary>
+            
+             @par Value range:
+             	 [0,7ffffff]
+             @par Default value:
+             	 10000
+             @par Remarks:
+            	   If you want to stop reading barcodes after a specified amount of time, you can use this parameter to set a timeout.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mPDFRasterDPI">
+            <summary> Sets the output image resolution. When you are trying to decode a PDF file using the DecodeFile method, the library will convert the PDF file to image(s) first, then perform barcode recognition. </summary>
+            
+            @par Value range:
+            	 [100,600]
+            @par Default value:
+                 300
+            @par Remarks:
+                 To ensure your barcodes in the PDF files are readable, please set the resolution to at least 300 dpi.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mTextFilterMode">
+            <summary> Sets whether to filter text before barcode localization. </summary>
+            @par Value range:
+            	 TFM_Disable, TFM_Enable
+            @par Default value:
+            	 TFM_Enable
+            @par Remarks:
+            	 If the barcode image contains a lot of text, you can set this property to "TFM_Enable" to speed up the localization process.
+            @sa TextFilterMode
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mRegionPredetectionMode">
+             <summary> Sets whether to pre-detect barcode regions before accurate localization. </summary>  
+            
+             @par Value range:
+             	 RPM_Disable, RPM_Enable
+             @par Default value:
+             	 RPM_Disable
+             @par Remarks:
+            		 If the image is large and the barcode on the image is very small, it is recommended to set this property to "RPM_Enable" to speed up the localization process and recognition accuracy.
+                  If this property is set to "RPM_Enable", also set mColourImageConvertMode to "CICM_Auto" and mScaleDownThreshold to 0x7fffffff for best performance.
+             @sa RegionPredetectionMode mColourImageConvertMode mScaleDownThreshold
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mLocalizationAlgorithmPriority">
+            <summary> Sets the priority of localization algorithms to decide the ordering of the following four localization algorithms. </summary>
+            
+             @par Default values:
+             	  ""
+             @par Optional localization algorithms:
+             	  "ConnectedBlocks", "Statistics", "Lines", "FullImageAsBarcodeZone"
+             @par Remarks:
+             	  - Default value: The library will automatically use optimized localization priority, i.e. ConnectedBlocks -> Statistics -> Lines -> FullImageAsBarcodeZone, which is also the recommended order.    
+             	
+             	  - ConnectedBlocks: Localizes barcodes by searching connected blocks. This algorithm usually gives best result and it is recommended to set ConnectedBlocks to the highest priority.    
+             	
+             	  - Statistics: Localizes barcodes by groups of contiguous black-white regions. This is optimized for QRCode and DataMatrix.    
+             		
+                  - Lines: Localizes barcodes by searching for groups of lines. This is optimized for 1D and PDF417 barcodes.     
+             	
+               	  - FullImageAsBarcodeZone: Disables localization. In this mode, it will directly localize barcodes on the full image without localization. If there is nothing other than the barcode in the image, it is recommended to use this mode.  
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mBarcodeFormatIds">
+            <summary> Sets which types of barcode to read. Barcode types can be combined. Notice that one barcode reader can support more than one barcode format, i.e. the barcode format can be combined like BarcodeFormat.CODE_39 | BarcodeFormat.CODE_128. </summary>
+            
+            @par Remarks:
+                 If you already know the barcode type(s) before performing barcode reading, specifying the barcode type(s) to be read will speed up the recognition process.
+            @sa BarcodeFormat
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mMaxAlgorithmThreadCount">
+            <summary> Sets how many image processing algorithm threads will be used to decode barcodes. </summary>
+             
+             @par Value range:
+             	  [1,4]
+             @par Default value:
+             	  4
+             @par Remarks:
+                  By default, our library concurrently runs four different threads used for decoding barcodes. For some devices (e.g. Raspberry Pi) that only uses one core, you can set it to 1 for best speed.
+                  If you create BarcodeReader instances in multiple threads, please set this property to 1 in case our algorithm threads affect your application.	
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mTextureDetectionSensitivity">
+            <summary> Sets the value of sensitivity for texture detection. </summary>
+             
+             @par Value range:
+             	  [0,9]
+             @par Default value:
+             	  5
+             @par Remarks:
+            	  If you have an image with texture on it , you can set this property to a larger value. If texture is detected, we will smooth the image to help localize the barcode.
+            	  If there is no texture on the image, the value should be set to 0 to disable texture detection; If there is texture on the image, you can set this value to 9 to activate texture detection.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mDeblurLevel">
+            <summary> Sets the degree of blurriness of the barcode. </summary>
+             @par Value range:
+             	  [0,9]
+             @par Default value:
+             	  9
+             @par Remarks:
+                  If you have a blurry image, you can set this property to a larger value. The higher value you set, the library will spend more time decoding images which may slow down the overall recognition process.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mAntiDamageLevel">
+            <summary> Sets the degree of anti-damage of the barcode, which decides how many localization algorithms will be used for locating the barcode area. </summary>
+             @par Value range:
+             	  [0,9]
+             @par Default Value:
+             		9
+             @par Remarks:
+             	  - 0 ≤ N ≤ 3： one localization algorithm will be used.  
+             		
+             	  - 4 ≤ N ≤ 5： two localization algorithm will be used.   
+             	
+             	  - 6 ≤ N ≤ 7： three localization algorithm will be used.
+             	
+             	  - 8 ≤ N ≤ 9： four(i.e. all) localization algorithm will be used. 
+            
+             @par Notice:
+             	  If you have a damaged image, you can set this property to a larger value and use it with ExpectedBarcodesCount. 
+            	  If the ExpectedBarcodesCount is set to 0 or 1, it's suggested to set AntiDamageLevel to 9 to ensure best decoding efficiency; otherwise, the value of AntiDamageLevel is suggested to be set to 7. For more information about our localization algorithms, please check AlgorithmPriority. 
+             @sa mExpectedBarcodesCount
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mMaxDimOfFullImageAsBarcodeZone">
+            <summary> Sets the maximum image dimension (in pixels) to localize barcode on the full image. If the image dimension is smaller than the given value, the library will localize barcode on the full image. Otherwise, "FullImageAsBarcodeZone" mode will not be enabled. </summary>
+              
+             @par Value range:
+             	  [262144,0x7fffffff]
+             @par Default value:
+             	  262144
+             @par Remarks:
+                  If you have an image whose content is barcode only, you can set this property to a smaller value to decode the whole image.
+                  If the "FullImageAsBarcodeZone" mode is enabled, the barcode result will be more accurate but will cost more time.
+             @sa mLocalizationAlgorithmPriority
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mMaxBarcodesCount">
+            <summary> Sets the maximum number of barcodes to read. This will limit the number of barcodes returned by library. </summary>
+             @par Value range:
+             	  [1,0x7fffffff]
+             @par Default value:
+             	  0x7fffffff
+             @par Remarks:
+                  If you want to limit the numbers of barcodes, you can set it to the corresponding value. It will stop localization and decoding once the maximum number is reached.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mBarcodeInvertMode">
+            <summary> Sets the barcode invert mode which decides whether to invert colour before binarization. </summary>
+             @par Value range:
+             	  BIM_DarkOnLight, BIM_LightOnDark
+             @par Default value:
+             	  BIM_DarkOnLight
+             @par Remarks:
+                  This mode is designed to fit the scenarios with a light barcode located on a dark background. For example, a white QR on a sheet of black paper. 
+                  If the value is BIM_DarkOnLight, it will work better for dark barcodes on a light background; If the value is BIM_LightOnDark, it will work better for light barcodes on a dark background.
+             @sa BarcodeInvertMode
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mScaleDownThreshold">
+            <summary> Sets the threshold value an image can be scaled down to. If the shorter edge size is larger than the given value, the library will calculate the required height and width of the barcode image and shrink the image to that size before localization. Otherwise, it will perform barcode localization on the original image. </summary>
+             @par Value range:
+             	  [512,0x7fffffff]
+             @par Default value:
+             	  2300
+             @par Remarks:
+                  If you have an image whose shorter edge size is larger than the given value and the barcode is a small part on it, you can set this value to be larger than the shorter edge of this image.
+                  If you have an image whose shorter edge size is larger than the given value and the barcode is clear and big, you can set this value to a smaller one than the default value.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mGrayEqualizationSensitivity">
+            <summary> Sets the sensitivity used for gray equalization. May cause adverse effect on images with a high level ofcontrast. The higher the value, the more likely gray equalization will be activated. </summary>
+             @par Value range:
+             	  [0,9]
+             @par Default value:
+             	  0
+             @par Remarks:
+            	  If you have an image with a low level of contrast,  you can set the property to a larger value. If the value is set to 0, gray equalization will be disabled. If the value is set to 9, gray equalization will be activated.
+            	  For better accuracy for images with low camparison, set this property to 9. 
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mEnableFillBinaryVacancy">
+            <summary> Sets whether to enable fill binary vacancy. </summary>
+             @par Value range:
+             	  0, 1 (0 - disable, 1 - enable)
+             @par Default value:
+             	  1
+             @par Remarks:
+                  For barcodes with a large module size there might be a vacant area in the position detection pattern after binarization which may result in a decoding failure. Setting this to true will fill in the vacant area with black and may help to decode it successfully.
+                  Better accuracy for images with a large module size.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mColourImageConvertMode">
+            <summary> Sets whether to convert colour images to grayscale before processing. </summary>
+             @par Value range:
+             	  CICM_Auto, CICM_Grayscale
+             @par Default value:
+             	  CICM_Auto
+             @par Remarks:
+                  If you need to decode the barcode in the region pre-detection mode, it works better with the value CICM_Auto. There are no effects to the results. It will pass the original image for if you set it to CICM_Auto and the gray-scale image if you set it otherwise.
+             @sa ColourImageConvertMode 
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mReserved">
+            <summary> Reserved memory for struct. The length of this array indicates the size of the memory reserved for this struct. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mExpectedBarcodesCount">
+             <summary> Sets the expected number of barcodes to read for each image (or each region of the image if you specified barcode regions). </summary>
+              @par Value range:
+              	  [0,0x7fffffff]
+              @par Default value:
+              	  0
+              @par Remarks:
+              	  - 0: means Unknown and it will find at least one barcode.  
+              		
+              	  - 1: try to find one barcode. If one barcode is found, the library will stop the localization process and perform barcode decoding.    
+              	
+              	  - n: try to find n barcodes. If the library only finds m (m less than n) barcode, it will try different algorithms till n barcodes are found or all algorithms are used.    
+            
+              	  The value of ExpectedBarcodesCount must be less than or equal to the value of MaxBarcodesCount. To ensure the best performance, the value of AntiDamageLevel is suggested to be set to 9 if the ExpectedBarcodesCount is set to 0 or 1; otherwise, the value of AntiDamageLevel is suggested to be set to 7.
+              	  When AntiDamageLevel is larger than 7, the bigger ExpectedBarcodesCount you set, the more localization algorithms will be used which leads to a higher accuracy with slower performance. 
+              @sa mMaxBarcodesCount mAntiDamageLevel
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicRuntimeSettings.mBinarizationBlockSize">
+            <summary> Sets the block size for the process of binarization. Block size refers to the size of a pixel neighborhood used to calculate a threshold value for the pixel. </summary>
+             @par Value range:
+             	  [0,1000]
+             @par Default:
+             	  0
+             @par Remarks:
+             	  - 0: the block size used for binarization will be set to a value which is calculated automatically.
+             		
+             	  - N:    
+             		- 1 ≤ N ≤ 3: the block size used for binarization will be set to 3.  
+             		- N > 3: the block size used for binarization will be set to N.
+             		
+            	  An appropriate value for mBinarizationBlockSize can help generate a high quality binary image to increase the accuracy of barcode localization.
+        </member>
+        <member name="T:Dynamsoft.Barcode.PublicParameterSettings">
+             
+              This struct used for ensuring compatibility with earlier versions. It is functionally equivalent to PublicRuntimeSettings.
+             
+              @deprecated PublicParameterSettings
+             
+              @sa PublicRuntimeSettings
+            
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mName">
+             <summary> Stores the name of the struct, which is mainly help users to distinguish different version rather than practical use in the library. </summary>
+            
+             @deprecated mName
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mTimeout">
+             <summary> Sets the maximum amount of time (in milliseconds) it should spend searching for a barcode per page. It does not include the time taken to load an image (Tiff, PNG, etc.) from disk into memory. </summary>
+            
+             @par Value range:
+             	 [0,7ffffff]
+             @par Default value:
+             	 10000
+             @par Remarks:
+            	   If you want to stop reading barcodes after a specified amount of time, you can use this parameter to set a timeout.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mPDFRasterDPI">
+            <summary> Sets the output image resolution. When you are trying to decode a PDF file using the DecodeFile method, the library will convert the PDF file to image(s) first, then perform barcode recognition. </summary>
+            
+            @par Value range:
+            	 [100,600]
+            @par Default value:
+                 300
+            @par Remarks:
+                 To ensure your barcodes in the PDF files are readable, please set the resolution to at least 300 dpi.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mTextFilterMode">
+            <summary> Sets whether to filter text before barcode localization. </summary>
+            @par Value range:
+            	 TFM_Disable, TFM_Enable
+            @par Default value:
+            	 TFM_Enable
+            @par Remarks:
+            	 If the barcode image contains a lot of text, you can set this property to "TFM_Enable" to speed up the localization process.
+            @sa TextFilterMode
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mRegionPredetectionMode">
+             <summary> Sets whether to pre-detect barcode regions before accurate localization. </summary>  
+            
+             @par Value range:
+             	 RPM_Disable, RPM_Enable
+             @par Default value:
+             	 RPM_Disable
+             @par Remarks:
+            		 If the image is large and the barcode on the image is very small, it is recommended to set this property to "RPM_Enable" to speed up the localization process and recognition accuracy.
+                  If this property is set to "RPM_Enable", also set mColourImageConvertMode to "CICM_Auto" and mScaleDownThreshold to 0x7fffffff for best performance.
+             @sa RegionPredetectionMode mColourImageConvertMode mScaleDownThreshold
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mLocalizationAlgorithmPriority">
+            <summary> Sets the priority of localization algorithms to decide the ordering of the following four localization algorithms. </summary>
+            
+             @par Default values:
+             	  ""
+             @par Optional localization algorithms:
+             	  "ConnectedBlocks", "Statistics", "Lines", "FullImageAsBarcodeZone"
+             @par Remarks:
+             	  - Default value: The library will automatically use optimized localization priority, i.e. ConnectedBlocks -> Statistics -> Lines -> FullImageAsBarcodeZone, which is also the recommended order.    
+             	
+             	  - ConnectedBlocks: Localizes barcodes by searching connected blocks. This algorithm usually gives best result and it is recommended to set ConnectedBlocks to the highest priority.    
+             	
+             	  - Statistics: Localizes barcodes by groups of contiguous black-white regions. This is optimized for QRCode and DataMatrix.    
+             		
+                  - Lines: Localizes barcodes by searching for groups of lines. This is optimized for 1D and PDF417 barcodes.     
+             	
+               	  - FullImageAsBarcodeZone: Disables localization. In this mode, it will directly localize barcodes on the full image without localization. If there is nothing other than the barcode in the image, it is recommended to use this mode.  
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mBarcodeFormatIds">
+            <summary> Sets which types of barcode to read. Barcode types can be combined. Notice that one barcode reader can support more than one barcode format, i.e. the barcode format can be combined like BarcodeFormat.CODE_39 | BarcodeFormat.CODE_128. </summary>
+            
+            @par Remarks:
+                 If you already know the barcode type(s) before performing barcode reading, specifying the barcode type(s) to be read will speed up the recognition process.
+            @sa BarcodeFormat
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mMaxAlgorithmThreadCount">
+            <summary> Sets how many image processing algorithm threads will be used to decode barcodes. </summary>
+             
+             @par Value range:
+             	  [1,4]
+             @par Default value:
+             	  4
+             @par Remarks:
+                  By default, our library concurrently runs four different threads used for decoding barcodes. For some devices (e.g. Raspberry Pi) that only uses one core, you can set it to 1 for best speed.
+                  If you create BarcodeReader instances in multiple threads, please set this property to 1 in case our algorithm threads affect your application.	
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mTextureDetectionSensitivity">
+            <summary> Sets the value of sensitivity for texture detection. </summary>
+             
+             @par Value range:
+             	  [0,9]
+             @par Default value:
+             	  5
+             @par Remarks:
+            	  If you have an image with texture on it , you can set this property to a larger value. If texture is detected, we will smooth the image to help localize the barcode.
+            	  If there is no texture on the image, the value should be set to 0 to disable texture detection; If there is texture on the image, you can set this value to 9 to activate texture detection.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mDeblurLevel">
+            <summary> Sets the degree of blurriness of the barcode. </summary>
+             @par Value range:
+             	  [0,9]
+             @par Default value:
+             	  9
+             @par Remarks:
+                  If you have a blurry image, you can set this property to a larger value. The higher value you set, the library will spend more time decoding images which may slow down the overall recognition process.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mAntiDamageLevel">
+            <summary> Sets the degree of anti-damage of the barcode, which decides how many localization algorithms will be used for locating the barcode area. </summary>
+             @par Value range:
+             	  [0,9]
+             @par Default Value:
+             		9
+             @par Remarks:
+             	  - 0 ≤ N ≤ 3： one localization algorithm will be used.  
+             		
+             	  - 4 ≤ N ≤ 5： two localization algorithm will be used.   
+             	
+             	  - 6 ≤ N ≤ 7： three localization algorithm will be used.
+             	
+             	  - 8 ≤ N ≤ 9： four(i.e. all) localization algorithm will be used. 
+            
+             @par Notice:
+             	  If you have a damaged image, you can set this property to a larger value and use it with ExpectedBarcodesCount. 
+            	  If the ExpectedBarcodesCount is set to 0 or 1, it's suggested to set AntiDamageLevel to 9 to ensure best decoding efficiency; otherwise, the value of AntiDamageLevel is suggested to be set to 7. For more information about our localization algorithms, please check AlgorithmPriority. 
+             @sa mExpectedBarcodesCount
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mMaxDimOfFullImageAsBarcodeZone">
+            <summary> Sets the maximum image dimension (in pixels) to localize barcode on the full image. If the image dimension is smaller than the given value, the library will localize barcode on the full image. Otherwise, "FullImageAsBarcodeZone" mode will not be enabled. </summary>
+              
+             @par Value range:
+             	  [262144,0x7fffffff]
+             @par Default value:
+             	  262144
+             @par Remarks:
+                  If you have an image whose content is barcode only, you can set this property to a smaller value to decode the whole image.
+                  If the "FullImageAsBarcodeZone" mode is enabled, the barcode result will be more accurate but will cost more time.
+             @sa mLocalizationAlgorithmPriority
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mMaxBarcodesCount">
+            <summary> Sets the maximum number of barcodes to read. This will limit the number of barcodes returned by library. </summary>
+             @par Value range:
+             	  [1,0x7fffffff]
+             @par Default value:
+             	  0x7fffffff
+             @par Remarks:
+                  If you want to limit the numbers of barcodes, you can set it to the corresponding value. It will stop localization and decoding once the maximum number is reached.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mBarcodeInvertMode">
+            <summary> Sets the barcode invert mode which decides whether to invert colour before binarization. </summary>
+             @par Value range:
+             	  BIM_DarkOnLight, BIM_LightOnDark
+             @par Default value:
+             	  BIM_DarkOnLight
+             @par Remarks:
+                  This mode is designed to fit the scenarios with a light barcode located on a dark background. For example, a white QR on a sheet of black paper. 
+                  If the value is BIM_DarkOnLight, it will work better for dark barcodes on a light background; If the value is BIM_LightOnDark, it will work better for light barcodes on a dark background.
+             @sa BarcodeInvertMode
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mScaleDownThreshold">
+            <summary> Sets the threshold value an image can be scaled down to. If the shorter edge size is larger than the given value, the library will calculate the required height and width of the barcode image and shrink the image to that size before localization. Otherwise, it will perform barcode localization on the original image. </summary>
+             @par Value range:
+             	  [512,0x7fffffff]
+             @par Default value:
+             	  2300
+             @par Remarks:
+                  If you have an image whose shorter edge size is larger than the given value and the barcode is a small part on it, you can set this value to be larger than the shorter edge of this image.
+                  If you have an image whose shorter edge size is larger than the given value and the barcode is clear and big, you can set this value to a smaller one than the default value.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mGrayEqualizationSensitivity">
+            <summary> Sets the sensitivity used for gray equalization. May cause adverse effect on images with a high level ofcontrast. The higher the value, the more likely gray equalization will be activated. </summary>
+             @par Value range:
+             	  [0,9]
+             @par Default value:
+             	  0
+             @par Remarks:
+            	  If you have an image with a low level of contrast,  you can set the property to a larger value. If the value is set to 0, gray equalization will be disabled. If the value is set to 9, gray equalization will be activated.
+            	  For better accuracy for images with low camparison, set this property to 9. 
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mEnableFillBinaryVacancy">
+            <summary> Sets whether to enable fill binary vacancy. </summary>
+             @par Value range:
+             	  0, 1 (0 - disable, 1 - enable)
+             @par Default value:
+             	  1
+             @par Remarks:
+                  For barcodes with a large module size there might be a vacant area in the position detection pattern after binarization which may result in a decoding failure. Setting this to true will fill in the vacant area with black and may help to decode it successfully.
+                  Better accuracy for images with a large module size.
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mColourImageConvertMode">
+            <summary> Sets whether to convert colour images to grayscale before processing. </summary>
+             @par Value range:
+             	  CICM_Auto, CICM_Grayscale
+             @par Default value:
+             	  CICM_Auto
+             @par Remarks:
+                  If you need to decode the barcode in the region pre-detection mode, it works better with the value CICM_Auto. There are no effects to the results. It will pass the original image for if you set it to CICM_Auto and the gray-scale image if you set it otherwise.
+             @sa ColourImageConvertMode 
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mReserved">
+            <summary> Reserved memory for struct. The length of this array indicates the size of the memory reserved for this struct. </summary>
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mExpectedBarcodesCount">
+             <summary> Sets the expected number of barcodes to read for each image (or each region of the image if you specified barcode regions). </summary>
+              @par Value range:
+              	  [0,0x7fffffff]
+              @par Default value:
+              	  0
+              @par Remarks:
+              	  - 0: means Unknown and it will find at least one barcode.  
+              		
+              	  - 1: try to find one barcode. If one barcode is found, the library will stop the localization process and perform barcode decoding.    
+              	
+              	  - n: try to find n barcodes. If the library only finds m (m less than n) barcode, it will try different algorithms till n barcodes are found or all algorithms are used.    
+            
+              	  The value of ExpectedBarcodesCount must be less than or equal to the value of MaxBarcodesCount. To ensure the best performance, the value of AntiDamageLevel is suggested to be set to 9 if the ExpectedBarcodesCount is set to 0 or 1; otherwise, the value of AntiDamageLevel is suggested to be set to 7.
+              	  When AntiDamageLevel is larger than 7, the bigger ExpectedBarcodesCount you set, the more localization algorithms will be used which leads to a higher accuracy with slower performance. 
+              @sa mMaxBarcodesCount mAntiDamageLevel
+        </member>
+        <member name="F:Dynamsoft.Barcode.PublicParameterSettings.mBinarizationBlockSize">
+            <summary> Sets the block size for the process of binarization. Block size refers to the size of a pixel neighborhood used to calculate a threshold value for the pixel. </summary>
+             @par Value range:
+             	  [0,1000]
+             @par Default:
+             	  0
+             @par Remarks:
+             	  - 0: the block size used for binarization will be set to a value which is calculated automatically.
+             		
+             	  - N:    
+             		- 1 ≤ N ≤ 3: the block size used for binarization will be set to 3.  
+             		- N > 3: the block size used for binarization will be set to N.
+             		
+            	  An appropriate value for mBinarizationBlockSize can help generate a high quality binary image to increase the accuracy of barcode localization.
+        </member>
+        <member name="T:Dynamsoft.Barcode.Resource">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.DynamicPdf">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.DynamicPdfx64">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.DynamsoftBarcodeReaderx64">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.DynamsoftBarcodeReaderx86">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.DynamsoftLicClientx64">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.DynamsoftLicClientx86">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.vcomp110x64">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+        <member name="P:Dynamsoft.Barcode.Resource.vcomp110x86">
+            <summary>
+              Looks up a localized resource of type System.Byte[].
+            </summary>
+        </member>
+    </members>
+</doc>
